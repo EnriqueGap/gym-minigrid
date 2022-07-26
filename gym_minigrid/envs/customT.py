@@ -41,8 +41,8 @@ class TEnv(MiniGridEnv):
             self.put_obj(Wall(), i, 2*b)                    
         #============================================================
         # Objetives
-        self.put_obj(HighGoal(),width-2, height-2)
-        self.put_obj(LowGoal(),1, height-2)
+        self.put_obj(HighGoal(),width-2, height-2) #right highest reward
+        self.put_obj(LowGoal(),1, height-2) #left lowest/negative reward
         # Place the agent
         if self.agent_default_pos is not None:
             self.agent_pos = self._agent_default_pos
@@ -65,13 +65,6 @@ register(
 )
 # If you create a new class for a new environment in a new .py file inside envs directory
 # you must include the name of the script in __init__.py (just check the file)
-class TEnv12x12(TEnv):
-    def __init__(self, **kwargs):
-        super().__init__(size=12,**kwargs)
-register(
-    id='MiniGrid-T-12x12-v0',
-    entry_point='gym_minigrid.envs:TEnv12x12'
-)
 class TEnv15x15(TEnv):
     def __init__(self, **kwargs):
         super().__init__(size=15,**kwargs)
@@ -79,10 +72,10 @@ register(
     id='MiniGrid-T-15x15-v0',
     entry_point='gym_minigrid.envs:TEnv15x15'
 )
-class TEnv18x18(TEnv):
+class TEnv27x27(TEnv):
     def __init__(self, **kwargs):
-        super().__init__(size=18,**kwargs)
+        super().__init__(size=27,**kwargs)
 register(
-    id='MiniGrid-T-18x18-v0',
-    entry_point='gym_minigrid.envs:TEnv18x18'
+    id='MiniGrid-T-27x27-v0',
+    entry_point='gym_minigrid.envs:TEnv27x27'
 )
