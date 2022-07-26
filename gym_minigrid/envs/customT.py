@@ -41,8 +41,13 @@ class TEnv(MiniGridEnv):
             self.put_obj(Wall(), i, 2*b)                    
         #============================================================
         # Objetives
-        self.put_obj(HighGoal(),width-2, height-2) #right highest reward
-        self.put_obj(LowGoal(),1, height-2) #left lowest/negative reward
+        # HighGoal()
+        # MidGoal()
+        # LowGoal()
+        # Goalnt()
+        self.put_obj(HighGoal(),width-2, height-2)  #right highest reward
+        self.put_obj(Goalnt(),1, height-2)          #left lowest/negative reward
+        #=============================================================
         # Place the agent
         if self.agent_default_pos is not None:
             self.agent_pos = self._agent_default_pos
