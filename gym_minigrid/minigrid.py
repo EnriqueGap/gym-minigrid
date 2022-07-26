@@ -50,6 +50,7 @@ OBJECT_TO_IDX = {
     'highgoal'      : 11,
     'lowgoal'       : 12,
     'midgoal'       : 13,
+    'goalnt'        : 14,
 }
 
 IDX_TO_OBJECT = dict(zip(OBJECT_TO_IDX.values(), OBJECT_TO_IDX.keys()))
@@ -149,6 +150,8 @@ class WorldObj:
             v = LowGoal()
         elif obj_type == 'midgoal':
             v = MidGoal()
+        elif obj_type == 'goalnt':
+            v = Goalnt()            
         elif obj_type == 'lava':
             v = Lava()
         else:
@@ -195,7 +198,16 @@ class MidGoal(WorldObj):
         return True
 
     def render(self, img):
-        fill_coords(img, point_in_rect(0, 1, 0, 1), COLORS[self.color])        
+        fill_coords(img, point_in_rect(0, 1, 0, 1), COLORS[self.color])
+class Goalnt(WorldObj):
+    def __init__(self):
+        super().__init__('goalnt', 'green')
+
+    def can_overlap(self):
+        return True
+
+    def render(self, img):
+        fill_coords(img, point_in_rect(0, 1, 0, 1), COLORS[self.color])                
 class Floor(WorldObj):
     """
     Colored floor tile the agent can walk over
@@ -676,7 +688,10 @@ class MiniGridEnv(gym.Env):
 
         # Done completing task
         done = 6
-
+#==========================================================================
+#==========================================================================
+#==========================================================================
+#==========================================================================
     def __init__(
         self,
         grid_size=None,
@@ -718,7 +733,7 @@ class MiniGridEnv(gym.Env):
         })
 
         # Range of possible rewards
-        self.reward_range = (0, 5)
+        self.reward_range = (-1, 1)
 
         # Window to use for human rendering mode
         self.window = None
@@ -807,6 +822,7 @@ class MiniGridEnv(gym.Env):
             'highgoal'      : 'G',
             'midgoal'       : 'G',
             'lowgoal'       : 'G',                                    
+            'goalnt'        : 'G',   
             'lava'          : 'V',
         }
 
@@ -865,26 +881,28 @@ class MiniGridEnv(gym.Env):
         """
         Compute the reward to be given upon success
         """
-        base=1
-        random=np.abs(np.random.normal(0,0.5))
-        total = base+random
-        return total - 0.9 * (self.step_count / self.max_steps)        
+        return 1 - 0.9 * (self.step_count / self.max_steps)        
     def _midreward(self):
         """
         Compute the reward to be given upon success
         """
-        base=0.5
-        random=np.abs(np.random.normal(0,0.5))
-        total = base+random
-        return total - 0.9 * (self.step_count / self.max_steps)
+        total = 0.5
+        return total - 0.45 * (self.step_count / self.max_steps)
     def _lowreward(self):
         """
         Compute the reward to be given upon success
         """
-        base=0
-        random=np.abs(np.random.normal(0,0.5))
-        total = base+random
-        return total - 0.9 * (self.step_count / self.max_steps)        
+        base=0.1
+        total = base
+        return total - 0.09 * (self.step_count / self.max_steps)        
+    def _rewardnt(self):
+        """
+        Compute the reward to be given upon success
+        """
+        base=-1
+        total = base
+        return total
+        #return total - 0.9 * (self.step_count / self.max_steps)                
     def _rand_int(self, low, high):
         """
         Generate random integer in [low,high[
@@ -1196,6 +1214,9 @@ class MiniGridEnv(gym.Env):
             if fwd_cell != None and fwd_cell.type == 'lowgoal':
                 done = True
                 reward = self._lowreward()
+            if fwd_cell != None and fwd_cell.type == 'goalnt':
+                done = True
+                reward = self._rewardnt()                
             if fwd_cell != None and fwd_cell.type == 'lava':
                 done = True
 
