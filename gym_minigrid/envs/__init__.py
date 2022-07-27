@@ -19,5 +19,12 @@ from gym_minigrid.envs.crossing import *
 from gym_minigrid.envs.lavagap import *
 from gym_minigrid.envs.dynamicobstacles import *
 from gym_minigrid.envs.distshift import *
-from gym_minigrid.envs.customT import *
+from gym_minigrid.envs.customTHN import *
+from gym_minigrid.envs.customTLN import *
+from gym_minigrid.envs.customTMN import *
+from gym_minigrid.envs.customTNN import *
+from gym_minigrid.envs.customTLH import *
+from gym_minigrid.envs.customTMH import *
+from gym_minigrid.envs.customTHH import *
+from gym_minigrid.envs.customTML import *
 from gym_minigrid.envs.customsharp import *

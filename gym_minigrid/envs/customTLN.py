@@ -3,7 +3,7 @@ from gym_minigrid.register import register
 import itertools as itt
 import numpy as np
 
-class TEnv(MiniGridEnv):
+class TEnvLN(MiniGridEnv):
     # Our environment
     def __init__(self,size=9, agent_pos=None):
         # Coordinates:
@@ -45,7 +45,7 @@ class TEnv(MiniGridEnv):
         # MidGoal()
         # LowGoal()
         # Goalnt()
-        self.put_obj(HighGoal(),width-2, height-2)  #right highest reward
+        self.put_obj(LowGoal(),width-2, height-2)  #right highest reward
         self.put_obj(Goalnt(),1, height-2)          #left lowest/negative reward
         #=============================================================
         # Place the agent
@@ -59,28 +59,28 @@ class TEnv(MiniGridEnv):
         self.mission = "T environment"
 
 # Create the class, initiate
-class TEnv9x9(TEnv):
+class TEnv9x9LN(TEnvLN):
     def __init__(self, **kwargs):
         super().__init__(size=9,**kwargs)
 # This lines is for the flags ./manual_control.py --env NAME_OF_THE_ENVIRONMENT
 # and for create the environment using env.create('NAME_OF_THE_ENVIRONMENT')
 register(
-    id='MiniGrid-T-9x9-v0',
-    entry_point='gym_minigrid.envs:TEnv9x9'
+    id='MiniGrid-T-9x9LN-v0',
+    entry_point='gym_minigrid.envs:TEnv9x9LN'
 )
 # If you create a new class for a new environment in a new .py file inside envs directory
 # you must include the name of the script in __init__.py (just check the file)
-class TEnv15x15(TEnv):
+class TEnv15x15LN(TEnvLN):
     def __init__(self, **kwargs):
         super().__init__(size=15,**kwargs)
 register(
-    id='MiniGrid-T-15x15-v0',
-    entry_point='gym_minigrid.envs:TEnv15x15'
+    id='MiniGrid-T-15x15LN-v0',
+    entry_point='gym_minigrid.envs:TEnv15x15LN'
 )
-class TEnv27x27(TEnv):
+class TEnv27x27LN(TEnvLN):
     def __init__(self, **kwargs):
         super().__init__(size=27,**kwargs)
 register(
-    id='MiniGrid-T-27x27-v0',
-    entry_point='gym_minigrid.envs:TEnv27x27'
+    id='MiniGrid-T-27x27LN-v0',
+    entry_point='gym_minigrid.envs:TEnv27x27LN'
 )
